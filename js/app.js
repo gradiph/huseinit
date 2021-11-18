@@ -19161,25 +19161,37 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  mounted: function mounted() {
-    var _this = this;
-
-    axios({
-      method: 'get',
-      url: 'https://yesno.wtf/api',
-      headers: {
-        'Access-Control-Allow-Origin': '*'
-      }
-    }).then(function (response) {
-      _this.answer = response.data.answer;
-    })["catch"](function (error) {
-      _this.answer = 'Error! Could not reach the API. ' + error;
-    });
-  },
   data: function data() {
     return {
       answer: '...'
     };
+  },
+  methods: {
+    login: function login() {
+      var _this = this;
+
+      axios.get('/huseinit/sanctum/csrf-cookie').then(function (response) {
+        axios({
+          method: 'post',
+          url: '/huseinit/login',
+          data: {
+            email: 'cmraz@example.com',
+            password: 'password'
+          }
+        }).then(function (response) {
+          _this.answer = response.data;
+        })["catch"](function (error) {
+          _this.answer = 'Error! Could not reach the API. ' + error;
+        });
+      });
+    },
+    user: function user() {
+      var _this2 = this;
+
+      axios.get('/huseinit/api/user').then(function (response) {
+        _this2.answer = response.data;
+      });
+    }
   }
 });
 
@@ -19203,14 +19215,18 @@ var _hoisted_1 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementV
 /* HOISTED */
 );
 
-var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", null, "auth_sanctum", -1
-/* HOISTED */
-);
-
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [_hoisted_1, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "answer is " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.answer), 1
   /* TEXT */
-  ), _hoisted_2], 64
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[0] || (_cache[0] = function () {
+      return $options.login && $options.login.apply($options, arguments);
+    })
+  }, " login "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[1] || (_cache[1] = function () {
+      return $options.user && $options.user.apply($options, arguments);
+    })
+  }, " user ")], 64
   /* STABLE_FRAGMENT */
   );
 }
