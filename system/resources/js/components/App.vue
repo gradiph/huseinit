@@ -23,7 +23,7 @@
 
         methods: {
             login() {
-                axios.get('/huseinit/sanctum/csrf-cookie')
+                axios.get('/sanctum/csrf-cookie')
                     .then(response => {
                         axios({
                             method: 'post',
@@ -43,7 +43,7 @@
             },
 
             user() {
-                axios.get('/huseinit/api/user')
+                axios.get('/api/user')
                     .then(response => {
                         this.answer = response.data
                     })

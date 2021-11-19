@@ -19170,7 +19170,7 @@ __webpack_require__.r(__webpack_exports__);
     login: function login() {
       var _this = this;
 
-      axios.get('/huseinit/sanctum/csrf-cookie').then(function (response) {
+      axios.get('/sanctum/csrf-cookie').then(function (response) {
         axios({
           method: 'post',
           url: '/huseinit/login',
@@ -19188,7 +19188,7 @@ __webpack_require__.r(__webpack_exports__);
     user: function user() {
       var _this2 = this;
 
-      axios.get('/huseinit/api/user').then(function (response) {
+      axios.get('/api/user').then(function (response) {
         _this2.answer = response.data;
       });
     }
