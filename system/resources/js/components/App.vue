@@ -1,6 +1,6 @@
 <template>
     <h1>Hi</h1>
-    <p>answer is {{ answer }}</p>
+    <p>answer is {{ count }}</p>
 
     <button
         @click="csrf"
@@ -26,6 +26,12 @@
         logout
     </button>
 
+    <button
+        @click="increaseCount"
+    >
+        increaseCount
+    </button>
+
     <div>
         <router-link to="/">Go to Home</router-link>
     </div>
@@ -35,9 +41,16 @@
 </template>
 
 <script>
+    import { mapActions, mapState } from 'vuex'
+
     export default {
+        computed: {
+            ...mapState([
+                'count',
+            ])
+        },
         data: () => ({
-            answer: process.env,
+            answer: '...',
         }),
 
         methods: {
@@ -79,6 +92,10 @@
                         this.answer = response.data
                     })
             },
+
+            ...mapActions([
+                'increaseCount',
+            ]),
         }
     }
 </script>
