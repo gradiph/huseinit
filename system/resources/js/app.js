@@ -1,17 +1,19 @@
+import './bootstrap'
 import { createApp } from 'vue'
 import router from './vue-router'
 import store from './store'
 import App from './components/App.vue'
+import Btn from './components/buttons/Btn.vue'
 
-import './bootstrap'
-
-const app = createApp({
+const APP = createApp({
     components: {
         App,
     },
 })
 
-app.use(router)
-app.use(store)
+APP.component('Btn', Btn)
 
-app.mount('#app')
+APP.use(router)
+APP.use(store)
+
+APP.mount('#app')

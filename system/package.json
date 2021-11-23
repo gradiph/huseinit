@@ -10,17 +10,19 @@
         "production": "mix --production"
     },
     "devDependencies": {
+        "autoprefixer": "^10.4.0",
         "axios": "^0.21.4",
         "laravel-mix": "^6.0.39",
         "lodash": "^4.17.21",
         "postcss": "^8.3.11",
+        "tailwindcss": "^2.2.19",
         "vue-loader": "^16.2.0"
     },
     "dependencies": {
-        "@mdi/font": "^6.5.95",
-        "autoprefixer": "^10.4.0",
+        "@jamescoyle/vue-icon": "^0.1.2",
+        "@mdi/js": "^6.5.95",
         "moment": "^2.29.1",
-        "tailwindcss": "^2.2.19",
+        "tippy.js": "^6.3.7",
         "vue": "^3.2.21",
         "vue-router": "^4.0.12",
         "vuex": "^4.0.2"

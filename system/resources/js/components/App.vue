@@ -1,101 +1,88 @@
 <template>
-    <h1>Hi</h1>
-    <p>answer is {{ count }}</p>
+    <router-view></router-view>
 
-    <button
-        @click="csrf"
-    >
-        csrf
-    </button>
-
-    <button
-        @click="login"
-    >
-        login
-    </button>
-
-    <button
-        @click="user"
-    >
-        user
-    </button>
-
-    <button
-        @click="logout"
-    >
-        logout
-    </button>
-
-    <button
-        @click="increaseCount"
-    >
-        increaseCount
-    </button>
-
-    <div>
-        <router-link to="/">Go to Home</router-link>
+    <!-- Dark mode button -->
+    <div class="absolute top-0 right-0 h-12 w-18 p-4">
+		<button
+            class="focus:outline-none"
+            @click="toggleDarkMode"
+        >
+            <svg-icon
+                type="mdi"
+                :path="darkModeIcon"
+            ></svg-icon>
+        </button>
     </div>
-    <div>
-        <router-view></router-view>
+
+    <!-- Loading Screen -->
+    <div
+        v-show="isLoading"
+        class="h-screen w-screen absolute top-0 left-0 z-50 bg-gray-900 opacity-50 text-white text-center grid place-content-center"
+    >
+        <div>
+            <svg-icon
+                class="animate-spin"
+                type="mdi"
+                :path="mdiLoading"
+                size="100"
+            ></svg-icon>
+        </div>
     </div>
 </template>
 
 <script>
-    import { mapActions, mapState } from 'vuex'
+    import SvgIcon from '@jamescoyle/vue-icon'
+    import { mdiBrightness3, mdiBrightness5, mdiLoading } from '@mdi/js'
+    import { mapActions, useStore } from 'vuex'
+    import { computed } from 'vue'
 
     export default {
-        computed: {
-            ...mapState([
-                'count',
-            ])
+        components: {
+            SvgIcon,
         },
+
+        computed: {
+            darkModeIcon() {
+                return this.isDarkMode ? mdiBrightness3 : mdiBrightness5
+            },
+        },
+
+        created () {
+            this.startApp({
+                name: this.appName,
+                lang: this.lang,
+            })
+        },
+
         data: () => ({
-            answer: '...',
+            isDarkMode: false,
+            mdiLoading,
         }),
 
         methods: {
-            csrf() {
-                axios.get('/huseinit/sanctum/csrf-cookie')
-                    .then(response => {
-                        this.answer = response.data
-                    })
-            },
-
-            login() {
-                axios({
-                    method: 'post',
-                    url: '/huseinit/login',
-                    data: {
-                        email: 'cmraz@example.com',
-                        password: 'password',
-                        remember: '1',
-                    }
-                })
-                  .then(response => {
-                      this.answer = response.data
-                  })
-                  .catch(error => {
-                      this.answer = 'Error! Could not reach the API. ' + error
-                  })
-            },
-
-            logout() {
-                axios.post('/huseinit/logout')
-                    .then(response => {
-                        this.answer = response.data
-                    })
-            },
-
-            user() {
-                axios.get('/huseinit/api/user')
-                    .then(response => {
-                        this.answer = response.data
-                    })
+            toggleDarkMode() {
+                this.isDarkMode = !this.isDarkMode
+                document.documentElement.classList.toggle('dark')
             },
 
             ...mapActions([
-                'increaseCount',
+                'startApp',
             ]),
-        }
+        },
+
+        props: [
+            'appName',
+            'lang',
+        ],
+
+        setup () {
+            const store = useStore()
+
+            return {
+                isLoading: computed(() => store.state.isLoading),
+                startLoading: () => store.dispatch('startLoading'),
+                stopLoading: () => store.dispatch('stopLoading'),
+            }
+        },
     }
 </script>

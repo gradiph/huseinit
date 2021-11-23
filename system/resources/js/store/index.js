@@ -3,12 +3,14 @@ import getters from './getters'
 import actions from './actions'
 import mutations from './mutations'
 
-const state = () => ({
-    count: 1,
+const STATE = () => ({
+    applicationName: '',
+    isLoading: true,
+    lang: '',
 })
 
-const store = createStore({
-    state,
+export default createStore({
+    state: STATE,
     getters,
     actions,
     mutations,
@@ -20,5 +22,3 @@ const store = createStore({
 
     },
 })
-
-export default store
